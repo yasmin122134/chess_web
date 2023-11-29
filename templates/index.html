@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Flask</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles_for_shits.css">
+
+</head>
+
+<body>
+
+    <h1>{{ message }}</h1>
+<h1>This is a heading</h1>
+<p>This is a paragraph.</p>
+
+
+    <div id="chessboard-container" class="chessboard"></div>
+    <button id="reset-button" class="reset-button">Reset</button>
+
+
+<!--<div class="chessboard">-->
+<!--    <button class="white square" name="A1"><img class="chess-piece" src="/static/chess/white_rook.png" alt="white rook"></button>-->
+<!--    <button class="black square" name="B1"><img class="chess-piece" src="/static/chess/white_knight.png" alt="white knight"></button>-->
+<!--    <button class="white square" name="C1"><img class="chess-piece" src="/static/chess/white_bishop.png" alt="white bishop"></button>-->
+<!--    <button class="black square" name="D1"><img class="chess-piece" src="/static/chess/white_king.png" alt="white king"></button>-->
+<!--    <button class="white square" name="E1"><img class="chess-piece" src="/static/chess/white_queen.png" alt="white queen"></button>-->
+<!--    <button class="black square" name="F1"><img class="chess-piece" src="/static/chess/white_bishop.png" alt="white bishop"></button>-->
+<!--    <button class="white square" name="G1"><img class="chess-piece" src="/static/chess/white_knight.png" alt="white knight"></button>-->
+<!--    <button class="black square" name="H1"><img class="chess-piece" src="/static/chess/white_rook.png" alt="white rook"></button>-->
+
+<!--    <button class="black square" name="A2"><img class="chess-piece" src="/static/chess/white_pawn.png" alt="white pawn"></button>-->
+<!--    <button class="white square" name="B2"><img class="chess-piece" src="/static/chess/white_pawn.png" alt="white pawn"></button>-->
+<!--    <button class="black square" name="C2"><img class="chess-piece" src="/static/chess/white_pawn.png" alt="white pawn"></button>-->
+<!--    <button class="white square" name="D2"><img class="chess-piece" src="/static/chess/white_pawn.png" alt="white pawn"></button>-->
+<!--    <button class="black square" name="E2"><img class="chess-piece" src="/static/chess/white_pawn.png" alt="white pawn"></button>-->
+<!--    <button class="white square" name="F2"><img class="chess-piece" src="/static/chess/white_pawn.png" alt="white pawn"></button>-->
+<!--    <button class="black square" name="G2"><img class="chess-piece" src="/static/chess/white_pawn.png" alt="white pawn"></button>-->
+<!--    <button class="white square" name="H2"><img class="chess-piece" src="/static/chess/white_pawn.png" alt="white pawn">    </button>-->
+
+<!--    <button class="white square" name="A3"></button>-->
+<!--    <button class="black square" name="B3"></button>-->
+<!--    <button class="white square" name="C3"></button>-->
+<!--    <button class="black square" name="D3"></button>-->
+<!--    <button class="white square" name="E3"></button>-->
+<!--    <button class="black square" name="F3"></button>-->
+<!--    <button class="white square" name="G3"></button>-->
+<!--    <button class="black square" name="H3"></button>-->
+
+<!--    <button class="black square" name = "A4"></button>-->
+<!--    <button class="white square" name = "B4"></button>-->
+<!--    <button class="black square" name = "C4"></button>-->
+<!--    <button class="white square" name = "D4"></button>-->
+<!--    <button class="black square" name = "E4"></button>-->
+<!--    <button class="white square" name = "F4"></button>-->
+<!--    <button class="black square" name = "G4"></button>-->
+<!--    <button class="white square" name = "H4"></button>-->
+
+<!--    <button class="white square" name="A5"></button>-->
+<!--    <button class="black square" name="B5"></button>-->
+<!--    <button class="white square" name="C5"></button>-->
+<!--    <button class="black square" name="D5"></button>-->
+<!--    <button class="white square" name="E5"></button>-->
+<!--    <button class="black square" name="F5"></button>-->
+<!--    <button class="white square" name="G5"></button>-->
+<!--    <button class="black square" name="H5"></button>-->
+
+<!--    <button class="black square" name = "A6"></button>-->
+<!--    <button class="white square" name = "B6"></button>-->
+<!--    <button class="black square" name = "C6"></button>-->
+<!--    <button class="white square" name = "D6"></button>-->
+<!--    <button class="black square" name = "E6"></button>-->
+<!--    <button class="white square" name = "F6"></button>-->
+<!--    <button class="black square" name = "G6"></button>-->
+<!--    <button class="white square" name = "H6"></button>-->
+
+<!--    <button class="white square" name="A7"><img class="chess-piece" src="/static/chess/black_pawn.png" alt="black pawn"></button>-->
+<!--    <button class="black square" name="B7"><img class="chess-piece" src="/static/chess/black_pawn.png" alt="black pawn"></button>-->
+<!--    <button class="white square" name="C7"><img class="chess-piece" src="/static/chess/black_pawn.png" alt="black pawn"></button>-->
+<!--    <button class="black square" name="D7"><img class="chess-piece" src="/static/chess/black_pawn.png" alt="black pawn"></button>-->
+<!--    <button class="white square" name="E7"><img class="chess-piece" src="/static/chess/black_pawn.png" alt="black pawn"></button>-->
+<!--    <button class="black square" name="F7"><img class="chess-piece" src="/static/chess/black_pawn.png" alt="black pawn"></button>-->
+<!--    <button class="white square" name="G7"><img class="chess-piece" src="/static/chess/black_pawn.png" alt="black pawn"></button>-->
+<!--    <button class="black square" name="H7"><img class="chess-piece" src="/static/chess/black_pawn.png" alt="black pawn"></button>-->
+
+<!--    <button class="black square" name="A8"><img class="chess-piece" src="/static/chess/black_rook.png" alt="black rook"></button>-->
+<!--    <button class="white square" name="B8"><img class="chess-piece" src="/static/chess/black_knight.png" alt="black knight"></button>-->
+<!--    <button class="black square" name="C8"><img class="chess-piece" src="/static/chess/black_bishop.png" alt="black bishop"></button>-->
+<!--    <button class="white square" name="D8"><img class="chess-piece" src="/static/chess/black_king.png" alt="black king"></button>-->
+<!--    <button class="black square" name="E8"><img class="chess-piece" src="/static/chess/black_queen.png" alt="black queen"></button>-->
+<!--    <button class="white square" name="F8"><img class="chess-piece" src="/static/chess/black_bishop.png" alt="black bishop"></button>-->
+<!--    <button class="black square" name="G8"><img class="chess-piece" src="/static/chess/black_knight.png" alt="black knight"></button>-->
+<!--    <button class="white square" name="H8"><img class="chess-piece" src="/static/chess/black_rook.png" alt="black rook"></button>-->
+<!--</div>-->
+
+<script src="/static/javascriptchessboard.js" defer></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,128 @@
+body {
+  background-color: dimgray;
+}
+
+h1 {
+  color: antiquewhite;
+  text-align: center;
+}
+
+p {
+  font-family: verdana;
+  font-size: 20px;
+}
+
+/*.button-container{*/
+/*  align-content: center;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*      display: grid;*/
+/*      grid-template-columns: repeat(8, 70px); !* Adjust the number and size of columns as needed *!*/
+/*      grid-gap: 0px; !* Adjust the gap between buttons as needed *!*/
+/* }*/
+
+button{
+  background-color: wheat;
+  color: white;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  background-color: #B6D22A;
+}
+
+
+button:focus{
+    background-color: #B6D22A;
+}
+
+/*block {*/
+/*  display: block;*/
+/*  width: 100%;*/
+/*  border: none;*/
+/*  background-color: #04AA6D;*/
+/*  padding: 14px 28px;*/
+/*  font-size: 16px;*/
+/*  cursor: pointer;*/
+/*  text-align: center;*/
+/*}*/
+
+
+
+
+.chessboard {
+  justify-content: center;
+  align-items: center;
+  display: grid;
+  grid-template-rows: repeat(8, 70px);
+  grid-template-columns: repeat(8, 70px);
+
+  gap: 0;
+}
+
+.square {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.white {
+  background-color: #FFCE9E;
+}
+
+.black {
+  background-color: #D2B48C;
+  color: #fff;
+}
+
+.square.clicked {
+      background-color: #B6D22A; /* Change color after clicking */
+    }
+
+.square:hover{
+  background-color: #B6D22A;
+}
+
+#close-image img {
+    display: block;
+    height: 50px;
+    width: 50px;
+}
+
+.chess-piece {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+
+.right {
+    width: 20%;
+    float: right;
+ }
+
+.reset-button {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  padding: 15px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+      background-color: #2980b9;
+    }
