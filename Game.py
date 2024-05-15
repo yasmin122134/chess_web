@@ -27,10 +27,10 @@ class game:
 
     def EndStatus(self):
         if (self.status != GameStatus.game_status.ACTIVE):
-            self.endst = True
+            self.end_status = True
             return True
         else:
-            self.endst = False
+            self.end_status = False
             return False
 
     def record_and_do_move(self, start_spot, end_spot):
@@ -81,11 +81,7 @@ class game:
         self.board.set_spot_xy(None, start_spot.x, start_spot.y)
         self.board.set_spot_xy(moved_piece, end_spot.x, end_spot.y)
 
-        # start_spot = self.board.get_spot_xy(start_spot.x, start_spot.y)
-        # end_spot = self.board.get_spot_xy(end_spot.x, end_spot.y)
-
-
-        # dead pice:
+        # dead piece:
         if (killed_piece != None):
             killed_piece_spot.piece = None
 

@@ -18,6 +18,8 @@ class king(piece):  # kill me now the king is exhausting
             return False
         x = abs(end.x - start.x)
         y = abs(end.y - start.y)
+        if end.threatened(self.white, board):
+            return False
 
         if x == 2 and y == 0 and self.is_valid_castling(start, end, board):
             self.needs_to_castle = True
