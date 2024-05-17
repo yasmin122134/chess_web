@@ -1,37 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello Flask</title>
     <link rel="stylesheet" type="text/css" href="/static/styles_for_shits.css">
-
 </head>
 
 <body>
-
     <h1>{{ message }}</h1>
-<!--<h1>This is a heading</h1>-->
-<h1 id="turn">it is white's turn </h1>
-
-
+    <h1 id="turn">It is white's turn</h1>
     <div id="chessboard-container" class="chessboard"></div>
     <button id="reset-button" class="reset-button">Reset</button>
 
-<script src="/static/javascriptchessboard.js" defer></script>
+    <!-- Include Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 
-
+    <!-- Your JavaScript file -->
+    <script src="/static/chessLogic.js" defer></script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-

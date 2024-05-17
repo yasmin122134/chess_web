@@ -71,6 +71,8 @@ class game:
             else:
                 self.current_turn = self.players[0]
 
+        return True
+
 
 
     def do_the_move(self, start_spot, end_spot, moved_piece):

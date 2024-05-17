@@ -49,7 +49,6 @@ def openPage():
 def generate_session():
     print("in generate session")
     session_id = str(uuid.uuid4())
-
     # Create a JSON response with the session ID
     response = jsonify(session_id=session_id)
 
@@ -58,10 +57,7 @@ def generate_session():
         p1.session_id = session_id
         response.set_cookie(f'{p1.is_white} white session_id', session_id)
         response.set_cookie(f'{not p1.is_white} white session_id', "-1")
-
-
         print("p1 session id is ", p1.session_id)
-        return response, 200
     else:
         if p2.session_id == 0:
             p2.session_id = session_id
@@ -69,15 +65,15 @@ def generate_session():
             response.set_cookie(f'{not p2.is_white} white session_id', "-1")
 
             print("p2 session id is ", p2.session_id)
-            return response, 200
+
+    return response, 200
 
 
 @app.route('/reset')
 def reset_game():
+    global game_board, handle_moves
     game_board = board()
-    print("created game_board")
     handle_moves = Game.game(p1, p2, game_board)
-
     return chessboard_state()
 
 
@@ -186,3 +182,4 @@ def make_moves():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
