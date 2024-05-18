@@ -11,4 +11,3 @@ class piece:
     def can_move(self, start, end, board):
         pass
 
-

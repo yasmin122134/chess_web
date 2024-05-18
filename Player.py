@@ -1,6 +1,3 @@
-import Spot
-
-
 class player:
 
 

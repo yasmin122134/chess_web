@@ -34,6 +34,11 @@ socket.on('update_board', function(data) {
 
 });
 
+socket.on('update_massage', function(data) {
+    var heading = document.getElementById('funny');
+    console.log(data)
+    heading.textContent = data;
+});
 socket.on('init_board', function(data) {
     var spot_matrix = data.spot_matrix;
     createChessboard(spot_matrix);
@@ -98,7 +103,7 @@ function handleSquareClick(event) {
         secondClick = { row: row, col: col };
         console.log('Second click:', secondClick);
         console.log('Sending make_move event');
-        socket.emit('make_moves', { firstClick: firstClick, secondClick: secondClick, cookie: document.cookie });
+        socket.emit('make_moves', { firstClick: firstClick, secondClick: secondClick});
         console.log('Sent make_move event');
         firstClick = null;
         removeClickedClassFromAllSquares();

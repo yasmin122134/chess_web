@@ -50,31 +50,23 @@ class spot:
         for i in range(1, 8):
             if self.x + i < 8 and not flag1:
                 if board.get_spot_xy(self.x + i, self.y).piece is not None and not flag1:
-                    print("woooooooooooooooo")
                     flag1 = True
                     check_and_append(self.x + i, self.y, ["rook", "queen"])
 
             if self.x - i >= 0 and not flag2:
                 if board.get_spot_xy(self.x - i, self.y).piece is not None and not flag2:
-                    print("woooooooooooooooo")
                     flag2 = True
                     check_and_append(self.x - i, self.y, ["rook", "queen"])
 
             if self.y + i < 8 and not flag3:
                 if board.get_spot_xy(self.x, self.y + i).piece is not None and not flag3:
-                    print("woooooooooooooooo")
                     flag3 = True
                     check_and_append(self.x, self.y + i, ["rook", "queen"])
 
             if self.y - i >= 0 and not flag4:
                 if board.get_spot_xy(self.x, self.y - i).piece is not None and not flag4:
-                    print("woooooooooooooooo")
                     flag4 = True
                     check_and_append(self.x, self.y - i, ["rook", "queen"])
-            # check_and_append(self.x, self.y + i, ["rook", "queen"])
-            # check_and_append(self.x, self.y - i, ["rook", "queen"])
-            # check_and_append(self.x + i, self.y, ["rook", "queen"])
-            # check_and_append(self.x - i, self.y, ["rook", "queen"])
 
         # Knight threats
         knight_moves = [(2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (-1, 2), (1, -2), (-1, -2)]

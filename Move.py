@@ -1,13 +1,3 @@
-import Player
-import Spot
-import Piece
-import Pawn
-import Rook
-import King
-import Knight
-import Queen
-import Bishop
-
 class move:
 
     def is_castling(self, start, end, moved):

@@ -1,6 +1,5 @@
 from Piece import piece
 
-
 class queen(piece):
     name = "queen"
 

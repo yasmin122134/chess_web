@@ -40,15 +40,12 @@ class game:
         if (start_spot.piece == None):
             print("move illegal or impossible")
             return False
-            # raise ValueError("move illegal or impossible")
         if (start_spot.piece.white != self.current_turn.is_white):
             print("not your turn!")
             return False
-            # raise ValueError("not your turn!")
         if (start_spot.piece.can_move(start_spot, end_spot, self.board) == False):
             print("move illegal or impossible")
             return False
-            # raise ValueError("move illegal or impossible")
 
 
         if (start_spot.piece.name == "king"):

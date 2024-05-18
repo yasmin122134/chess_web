@@ -23,7 +23,6 @@ class board:
 
     def get_spot_xy(self, x, y):
         if (x < 0 or x > 7 or y < 0 or y > 7):
-            print("fffffffffffffffffff",x, " , ", y)
             return False
             # raise IndexError("Index out of bound")
         return self.spot_matrix[x][y]
