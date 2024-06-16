@@ -13,36 +13,42 @@ import threading
 import time
 import random
 
+# Initialize Flask application
 app = Flask(__name__)
+# Initialize SocketIO with Flask app
 socketio = SocketIO(app, async_mode='eventlet')
 
-# Initialize game
+# Initialize game board and players
 game_board = board()
-print("created game_board")
 p1 = Player.player(True, game_board.get_spot_xy(4, 0), 0)
 p2 = Player.player(False, game_board.get_spot_xy(4, 7), 0)
+# Initialize game with players and board
 handle_moves = Game.game(p1, p2, game_board)
 
-# Initialize sessions
+# Initialize sessions dictionary
 sessions = {}
 
+# Route for initial page
 @app.route('/web', methods=['POST', 'GET'])
 def initial_page():
     return render_template('index.html')
 
+# SocketIO event for connecting
 @socketio.on('connecting')
 def connect():
     emit('init_board', jsonify(chessboard_state()).json)
 
+# Route for main menu
 @app.route("/main_manu")
 def main_manu():
     return render_template('mainManu.html')
 
+# List of messages
 messages = ["Message 1", "Message 2", "Message 3"]
 
+# Function to update message thread
 def update_message_thread():
     while True:
-        print("updating message")
         message = random.choice(messages)
         socketio.emit('update_massage', message)
         time.sleep(5)
@@ -50,9 +56,11 @@ def update_message_thread():
 # Route for generating and storing session identifier
 @app.route('/generate_session', methods=['GET'])
 def generate_session():
+    # Generate session ID
     session_id = str(uuid.uuid4())
     response = jsonify(session_id=session_id)
 
+    # Assign session ID to players
     if p1.session_id == 0:
         p1.session_id = session_id
         response.set_cookie(f'{p1.is_white} white session_id', session_id)
@@ -65,6 +73,7 @@ def generate_session():
 
     return response, 200
 
+# SocketIO event for resetting game
 @socketio.on('reset_game')
 def reset_game():
     global game_board, handle_moves
@@ -72,8 +81,10 @@ def reset_game():
     handle_moves = Game.game(p1, p2, game_board)
     emit('update_board', jsonify(chessboard_state()).json, broadcast=True)
 
+# Route for getting chessboard state
 @app.route('/api')
 def chessboard_state():
+    # Create dictionary with board state
     board_dict = {
         "spot_matrix": [[{
             "piece_name": game_board.get_spot_xy(j, i).piece.name if game_board.get_spot_xy(j, i).piece else 'x',
@@ -86,75 +97,69 @@ def chessboard_state():
     }
     return board_dict
 
-
+# SocketIO event for making moves
 @socketio.on('make_moves')
 def make_moves(data):
-    # Extracting the click data from the received message
+    # Extract click data
     first_click = data['firstClick']
     second_click = data['secondClick']
 
-    # Determine the current player
+    # Determine current player
     player = handle_moves.current_turn
 
-    # Retrieve the session ID from the client's cookies
+    # Retrieve session ID from cookies
     session_id = request.cookies.get(f'{player.is_white} white session_id')
 
-    # Extract and convert the click positions to integer coordinates
+    # Extract and convert click positions to integer coordinates
     start_x = int(first_click['col'])
     start_y = int(first_click['row'])
     end_x = int(second_click['col'])
     end_y = int(second_click['row'])
-    print(f"start_x: {start_x}, start_y: {start_y}, end_x: {end_x}, end_y: {end_y}")
 
-    # Get the starting and ending spots on the game board based on the coordinates
+    # Get starting and ending spots on game board
     start_spot = game_board.get_spot_xy(start_x, start_y)
     end_spot = game_board.get_spot_xy(end_x, end_y)
 
-    # Check if the start spot has a piece, it's a valid move (not moving to the same spot),
-    # and the session ID matches the current player's session ID
+    # Check if move is valid and session ID matches
     if start_spot.piece is not None and start_spot != end_spot and session_id == player.session_id:
-        print("valid move")
-
-        # Attempt to record and execute the move
+        # Record and execute move
         move = handle_moves.record_and_do_move(start_spot, end_spot)
 
-        # Update all clients with the new board state
+        # Update all clients with new board state
         emit('update_board', jsonify(chessboard_state()).json, broadcast=True)
 
+        # Check if move is invalid or game has been won
         if not move:
-            # If the move is invalid, notify clients with the error response
-            print("actually invalid move")
             error_response = chessboard_state()
             error_response['status'] = 'Invalid move'
             emit('update_board', jsonify(error_response).json, broadcast=True)
-        # Check if the game has been won by the white player
         if handle_moves.status == GameStatus.game_status.WHITE_WIN:
             ret = chessboard_state()
             ret['color'] = 'white'
             ret['status'] = 'win'
             emit('update_board', jsonify(ret).json, broadcast=True)
-        # Check if the game has been won by the black player
         if handle_moves.status == GameStatus.game_status.BLACK_WIN:
             ret = chessboard_state()
             ret['color'] = 'black'
             ret['status'] = 'win'
             emit('update_board', jsonify(ret).json, broadcast=True)
     else:
-        # If the move is invalid due to any other reason, notify clients with the error response
+        # If move is invalid, notify clients
         error_response = chessboard_state()
         error_response['status'] = 'Invalid move'
         emit('update_board', jsonify(error_response).json, broadcast=True)
 
-
-
+# SocketIO event for getting board state
 @socketio.on('get_board_state')
 def get_board_state():
     emit('update_board', jsonify(chessboard_state()).json)
 
+# Main function
 if __name__ == '__main__':
     # Start background thread to update message
     message_thread = threading.Thread(target=update_message_thread)
     message_thread.daemon = True
     message_thread.start()
 
+    # Run Flask app with SocketIO
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)

@@ -1,22 +1,27 @@
+// Establish connection with the server
 let socket = io.connect('http://' + document.domain + ':' + location.port);
 let firstClick = null;
 let secondClick = null;
 
+// Event listener for DOMContentLoaded event
 document.addEventListener("DOMContentLoaded", function() {
+    // Emit 'connecting' event when the DOM is fully loaded
     socket.emit('connecting');
-    // initializeChessboard();
 });
 
-
+// Event listener for 'update_board' event from the server
 socket.on('update_board', function(data) {
+    // Log the received data
     console.log('update_board event received');
     console.log(data.status);
     if (data.status !== 'Invalid move') {
         var spot_matrix = data.spot_matrix;
+        // Clear the board and create new images
         clearBoardImages();
         createBoardImages(spot_matrix);
         removeClickedClassFromAllSquares();
         var heading = document.getElementById('turn');
+        // Update the heading with the current turn
         heading.textContent = "It is " + data.turn + "'s turn";
 
         firstClick = null;
@@ -31,37 +36,41 @@ socket.on('update_board', function(data) {
             getSquareByCoordinates(secondClick.row, secondClick.col).classList.add('clicked');
         }
     }
-
 });
 
+// Event listener for 'update_massage' event from the server
 socket.on('update_massage', function(data) {
     var heading = document.getElementById('funny');
     console.log(data)
+    // Update the heading with the received data
     heading.textContent = data;
 });
+
+// Event listener for 'init_board' event from the server
 socket.on('init_board', function(data) {
     var spot_matrix = data.spot_matrix;
+    // Create the chessboard with the received spot matrix
     createChessboard(spot_matrix);
     console.log(spot_matrix);
-    // clearBoardImages();
-    // createBoardImages(spot_matrix);
-
 });
 
-
+// Get the chessboard container and reset button elements
 const chessboardContainer = document.getElementById('chessboard-container');
 const resetButton = document.getElementById('reset-button');
+// Add event listener for click event on the reset button
 resetButton.addEventListener('click', handleResetClick);
 
+// Function to emit 'get_board_state' event to the server
 function getBoardState() {
     socket.emit('get_board_state');
-
 }
 
+// Function to clear the chessboard graphics
 function clearBoardGraphics() {
     chessboardContainer.innerHTML = '';
 }
 
+// Function to clear the images from the chessboard
 function clearBoardImages() {
     var allSquares = document.querySelectorAll('.square');
     allSquares.forEach(square => {
@@ -69,6 +78,7 @@ function clearBoardImages() {
     });
 }
 
+// Function to create images on the chessboard
 function createBoardImages(spot_matrix) {
     for (const row_ of spot_matrix) {
         for (const element of row_) {
@@ -86,10 +96,13 @@ function createBoardImages(spot_matrix) {
     }
 }
 
+// Function to handle click event on the reset button
 function handleResetClick() {
+    // Emit 'reset_game' event to the server
     socket.emit('reset_game');
 }
 
+// Function to handle click event on a square
 function handleSquareClick(event) {
     var clickedSquare = event.currentTarget;
     var col = clickedSquare.getAttribute('data-col');
@@ -103,6 +116,7 @@ function handleSquareClick(event) {
         secondClick = { row: row, col: col };
         console.log('Second click:', secondClick);
         console.log('Sending make_move event');
+        // Emit 'make_moves' event to the server
         socket.emit('make_moves', { firstClick: firstClick, secondClick: secondClick});
         console.log('Sent make_move event');
         firstClick = null;
@@ -110,6 +124,7 @@ function handleSquareClick(event) {
     }
 }
 
+// Function to remove 'clicked' class from all squares
 function removeClickedClassFromAllSquares() {
     var allSquares = document.querySelectorAll('.square');
     allSquares.forEach(square => {
@@ -117,11 +132,13 @@ function removeClickedClassFromAllSquares() {
     });
 }
 
+// Function to get a square by its coordinates
 function getSquareByCoordinates(row, col) {
     var selector = `[data-row='${row}'][data-col='${col}']`;
     return document.querySelector(selector);
 }
 
+// Function to create an image on a square
 function createImageFromSquare(square, color, piece) {
     var image = document.createElement('img');
     image.src = `/static/chess/${color}_${piece}.png`;
@@ -130,6 +147,7 @@ function createImageFromSquare(square, color, piece) {
     square.appendChild(image);
 }
 
+// Function to remove an image from a square
 function removeImageFromSquare(square) {
     var image = square.querySelector('.chess-piece');
     if (image) {
@@ -137,25 +155,15 @@ function removeImageFromSquare(square) {
     }
 }
 
-// Initialize the chessboard and add event listeners to squares
+// Function to initialize the chessboard
 function initializeChessboard() {
-    // socket.emit('get_board_state');
     createChessboard();
-    // getBoardState();
     document.querySelectorAll('.square').forEach(square => {
         square.addEventListener('click', handleSquareClick);
     });
 }
 
-// // Listen for initial board state
-// socket.on('board_state', function(responseData) {
-//     var spot_matrix = responseData.spot_matrix;
-//     console.log(spot_matrix);
-//     clearBoardGraphics();
-//     createResetChessboard(spot_matrix);
-// });
-
-// Function to create and reset the chessboard with the spot matrix
+// Function to create the chessboard
 function createChessboard(spot_matrix) {
     for (const row_ of spot_matrix) {
         for (const element of row_) {
